@@ -3,18 +3,19 @@ package com.bettervns.teacherservice.controllers;
 
 import com.bettervns.teacherservice.dao.TeacherDAO;
 import com.bettervns.teacherservice.models.Teacher;
+import com.bettervns.teacherservice.requests.TeachersRequest;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.List;
+
 
 @RestController
-@RequestMapping("/teachers")
+@RequestMapping("")
 public class TeachersController {
 
     private final TeacherDAO teacherDAO;
@@ -24,53 +25,32 @@ public class TeachersController {
         this.teacherDAO = teacherDAO;
     }
 
-    @GetMapping
-    public List<Teacher> getAllTeachers() {
-        return teacherDAO.getAllTeachers();
+    @GetMapping("/teachers")
+    public ResponseEntity<?> getAllTeachers() {
+        return ResponseEntity.ok(new Gson().toJson(teacherDAO.getAllTeachers()));
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Teacher> getEmployeeById(@PathVariable("id") int employeeId){
+    @GetMapping("/teacher/id")
+    public ResponseEntity<?> getTeacherById(@PathVariable("id") int employeeId){
         return new ResponseEntity<Teacher>(teacherDAO.getTeacherById(employeeId), HttpStatus.OK);
     }
 
-    @GetMapping("/new")
-    public String newTeacher(Model model) {
-        model.addAttribute("teacher", new Teacher());
-        return "new";
-    }
 
-    @PostMapping()
+    @PostMapping("/teacher")
     public Teacher createTeacher(@RequestBody Teacher teacher) {
         return teacherDAO.addTeacher(teacher);
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") int id, Model model) {
-        model.addAttribute("teacher", teacherDAO.getTeacherById(id));
-        return "edit";
-    }
-//
-//    @PostMapping()
-//    public String newTeacher(@ModelAttribute("teacher") Teacher teacher, BindingResult bindingResult){
-//        if (bindingResult.hasErrors()) return "teachers/new";
-//        System.out.println(teacher);
-//        teacherDAO.addTeacher(teacher);
-//        return "redirect:/teachers";
-//    }
-//
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("teacher") Teacher teacher, BindingResult bindingResult, @PathVariable("id") int id) {
-        System.out.println(teacher.toString());
-        if (bindingResult.hasErrors()) return "edit";
-
-        teacherDAO.update(id, teacher);
-        return "redirect:/teachers";
+    @PatchMapping("/teacher/{id}")
+    public ResponseEntity<?> editGroup(@RequestBody TeachersRequest requestObject, @PathVariable("id") int id){
+        teacherDAO.update(id, new Teacher(requestObject.name(), requestObject.surname(), requestObject.father(),
+                requestObject.email(), requestObject.chair_id()));
+        return ResponseEntity.ok("added");
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("teacher/{id}")
     public RedirectView delete(@PathVariable("id") int id) {
         teacherDAO.deleteTeacher(id);
         return new RedirectView("http://localhost:8080/teachers");

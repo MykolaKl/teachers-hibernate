@@ -67,6 +67,14 @@ public class Teacher {
         this.chair_id = chair_id;
     }
 
+    public Teacher(String name, String surname, String father, String email, int chair_id) {
+        this.name = name;
+        this.surname = surname;
+        this.father = father;
+        this.email = email;
+        this.chair_id = chair_id;
+    }
+
     @Override
     public String toString() {
         return "Teacher{" +

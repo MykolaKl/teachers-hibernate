@@ -23,12 +23,12 @@ public class DepartmentsController {
     }
 
     @GetMapping("/departments")
-    public ResponseEntity<?> getAllTeachers() {
+    public ResponseEntity<?> getAllDepartments() {
         return ResponseEntity.ok(new Gson().toJson(departmentDAO.getAllDepartments()));
     }
 
     @GetMapping("/department/{id}")
-    public ResponseEntity<?> getTeacherById(@PathVariable("id") int id) {
+    public ResponseEntity<?> getDepartmentById(@PathVariable("id") int id) {
         System.out.println(departmentDAO.getDepartmentById(id));
         return ResponseEntity.ok(new Gson().toJson(departmentDAO.getDepartmentById(id)));
     }
