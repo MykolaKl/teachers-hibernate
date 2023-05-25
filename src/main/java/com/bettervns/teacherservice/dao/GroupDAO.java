@@ -1,16 +1,11 @@
 package com.bettervns.teacherservice.dao;
 
-
-import com.bettervns.teacherservice.models.Department;
 import com.bettervns.teacherservice.models.Group;
-import com.bettervns.teacherservice.repository.DepartmentRepository;
 import com.bettervns.teacherservice.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +19,9 @@ public class GroupDAO {
         this.groupRepository = groupRepository;
     }
 
-
     public List<Group> getAllGroups() {
         return groupRepository.findAll();
     }
-
 
     public Group getGroupById(int id) {
         Optional<Group> groups = groupRepository.findById(id);
@@ -42,7 +35,6 @@ public class GroupDAO {
     public Group addGroup(Group group) {
         return groupRepository.save(group);
     }
-
 
     public void update(int id, Group updatedGroup) {
         Optional<Group> optionalGroup = groupRepository.findById(id);

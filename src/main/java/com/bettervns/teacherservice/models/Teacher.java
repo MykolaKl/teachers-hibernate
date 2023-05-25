@@ -27,7 +27,6 @@ public class Teacher {
     @Column(name = "chair_id", nullable = false)
     private int chair_id;
 
-
     public String getName() {
         return name;
     }

@@ -27,6 +27,15 @@ public class Department {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Group> groups;
 
+    public Department(int id) {
+        this.id = id;
+    }
+
+    public Department(String name, String phone, String email) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+    }
 
     public String getName() {
         return name;
@@ -51,8 +60,6 @@ public class Department {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
 
     @Override
     public String toString() {

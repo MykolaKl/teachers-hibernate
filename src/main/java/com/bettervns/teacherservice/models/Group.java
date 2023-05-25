@@ -1,7 +1,6 @@
 package com.bettervns.teacherservice.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,11 +17,15 @@ public class Group {
     @Column(name = "studying_year", nullable = false)
     private int studyingYear;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
 
+    public Group(String name, int studyingYear, Department department) {
+        this.name = name;
+        this.studyingYear = studyingYear;
+        this.department = department;
+    }
 
     public String getName() {
         return name;
@@ -54,7 +57,7 @@ public class Group {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", studyingYear=" + studyingYear +
-                ", department=" + department +
+                ", departmentId=" + department.getId() +
                 '}';
     }
 }
